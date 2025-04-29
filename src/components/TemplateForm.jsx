@@ -1,51 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+function TemplateForm({ initialData = {}, onTemplateSaved }) {
+  const [type, setType] = useState(initialData.type || 'Welcome');
+  const [content, setContent] = useState(initialData.content || '');
+  const [author, setAuthor] = useState(initialData.author || '');
 
-function TemplateForm({ onTemplateAdded }) {
-  const [type, setType] = useState('Welcome');
-  const [content, setContent] = useState('');
-  const [author, setAuthor] = useState('');
-  const [error, setError] = useState(null);
+  useEffect(() => {
+    if (initialData) {
+      setType(initialData.type || 'Welcome');
+      setContent(initialData.content || '');
+      setAuthor(initialData.author || '');
+    }
+  }, [initialData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const newTemplate = {
-      type,
-      content,
-      author,
-    };
-
-    fetch(`${API_BASE_URL}/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newTemplate),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        onTemplateAdded(data); // Notifica al componente padre que se agregó una nueva plantilla
-        setType('Welcome');
-        setContent('');
-        setAuthor('');
-        setError(null);
-      })
-      .catch((err) => {
-        console.error('Error adding template:', err.message);
-        setError(err.message);
-      });
+    const updatedTemplate = { type, content, author };
+    onTemplateSaved(updatedTemplate);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {error && <p className="text-red-500">Error: {error}</p>}
       <div>
-        <label htmlFor="type" className="block text-sm font-medium">Type</label>
+        <label htmlFor="type" className="block text-sm font-medium">
+          Type
+        </label>
         <select
           id="type"
           value={type}
@@ -59,7 +38,9 @@ function TemplateForm({ onTemplateAdded }) {
         </select>
       </div>
       <div>
-        <label htmlFor="content" className="block text-sm font-medium">Content</label>
+        <label htmlFor="content" className="block text-sm font-medium">
+          Content
+        </label>
         <textarea
           id="content"
           value={content}
@@ -69,7 +50,9 @@ function TemplateForm({ onTemplateAdded }) {
         />
       </div>
       <div>
-        <label htmlFor="author" className="block text-sm font-medium">Author</label>
+        <label htmlFor="author" className="block text-sm font-medium">
+          Author
+        </label>
         <input
           type="text"
           id="author"
@@ -79,8 +62,8 @@ function TemplateForm({ onTemplateAdded }) {
           required
         />
       </div>
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-        Add Template
+      <button type="submit" className="px-4 py-2 bg-gray-700 text-white rounded  hover:bg-gray-800">
+        {initialData && initialData._id ? 'Save Changes' : 'Add Template'}
       </button>
     </form>
   );

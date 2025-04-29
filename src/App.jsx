@@ -1,16 +1,27 @@
 import './index.css';
-import Templates from './components/Templates';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+import TemplatesPages from './pages/TemplatesPages';
+import TemplateFormPages from './pages/TemplateFormPages';
 
 function App() {
   return (
-    <div className="App max-w-4xl mx-auto my-8 p-4 bg-gray-100 rounded shadow">
-      <header className="p-4 bg-blue-500 text-white">
-        <h1 className="text-2xl">FastCRM - Templates</h1>
-      </header>
-      <main className="p-4">
-        <Templates />
-      </main>
-    </div>
+    <Router>
+      <div className="App min-h-screen flex flex-col bg-gray-100">
+        <Header />
+        <Navbar />
+        <main className="flex-grow p-4">
+          <Routes>
+            <Route path="/contacts" element={<h1>Contactos</h1>} />
+            <Route path="/companies" element={<h1>Empresas</h1>} />
+            <Route path="/history" element={<h1>Historial</h1>} />
+            <Route path="/templates" element={<TemplatesPages />} />
+            <Route path="/templates/form" element={<TemplateFormPages />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
