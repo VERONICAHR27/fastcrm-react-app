@@ -12,23 +12,23 @@ function TemplatesPages() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    fetch(API_BASE_URL)
-      .then((response) => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/templates`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
         setTemplates(data);
         setFilteredTemplates(data); // Inicialmente, mostrar todas las plantillas
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Fetch error:', err.message);
         setError(err.message);
         setLoading(false);
-      });
+      }
+    };
+    fetchTemplates();
   }, []);
 
   const handleFilterChange = (e) => {
@@ -61,7 +61,7 @@ function TemplatesPages() {
 
   const handleTemplateDeleted = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/templates/${id}`, {
         method: 'DELETE',
       });
 
