@@ -82,11 +82,15 @@ function CompaniesPages() {
             <div>
               <h3 className="text-lg font-semibold">{company.name}</h3>
               <p>RUC: {company.ruc}</p>
-              {company.contacts && company.contacts.length > 0 && (
-                <p>Contacts: {company.contacts.map(contact => contact.name).join(', ')}</p>
-              )}
+        
             </div>
             <div className="flex space-x-2">
+              <Link
+                to={`/companies/details/${company.id}`}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-800"
+              >
+                View Details
+              </Link>
               <Link
                 to={`/companies/form?id=${company.id}`}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800"

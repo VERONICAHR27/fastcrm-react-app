@@ -60,6 +60,9 @@ function TemplatesPages() {
   };
 
   const handleTemplateDeleted = async (id) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this template?');
+    if (!confirmDelete) return;
+
     try {
       const response = await fetch(`${API_BASE_URL}/templates/${id}`, {
         method: 'DELETE',
@@ -156,6 +159,10 @@ function TemplatesPages() {
               {/* Botón Editar */}
               <Link
                 to={`/templates/form?id=${template._id}`}
+                onClick={(e) => {
+                  const confirmEdit = window.confirm('Are you sure you want to edit this template?');
+                  if (!confirmEdit) e.preventDefault();
+                }}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-800"
               >
                 Edit

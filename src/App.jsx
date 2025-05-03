@@ -8,7 +8,7 @@ import ContactPages from './pages/ContactPages';
 import ContactFormPages from './pages/ContactFormPages';
 import CompaniesPages from './pages/CompaniesPages';
 import CompaniesFormPages from './pages/CompaniesFormPages';
-
+import DetailView from './components/DetailView'; // Import the DetailView component
 
 function App() {
   return (
@@ -20,11 +20,13 @@ function App() {
           <Routes>
             <Route path="/contacts" element={<ContactPages />} />
             <Route path="/contacts/form" element={<ContactFormPages />} />
+            <Route path="/contacts/details/:id" element={<DetailView />} /> {/* Add route for contact details */}
+            <Route path="/companies/details/:id" element={<DetailView />} /> {/* Ruta para detalles de empresas */}
             <Route path="/history" element={<h1>Historial</h1>} />
             <Route path="/templates" element={<TemplatesPages />} />
             <Route path="/templates/form" element={<TemplateFormPages />} />
             <Route path="/companies" element={<CompaniesPages />} />
-            <Route path="/companies/form" element={<CompaniesFormPages />} />
+            <Route path="/companies/form" element={<CompaniesFormPages />} /> {/* Ruta para agregar/editar compañías */}
           </Routes>
         </main>
       </div>

@@ -31,7 +31,7 @@ function CompaniesFormPages() {
           setLoading(false);
         });
     } else {
-      setCompany({ name: '', ruc: '' }); // Incluir solo los campos necesarios
+      setCompany({ name: '', ruc: '', contacts: '' }); // Cambiar `contacts` a un array vacío
       setLoading(false);
     }
   }, [id]);
@@ -46,14 +46,16 @@ function CompaniesFormPages() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedCompany),
+        body: JSON.stringify(updatedCompany), // Enviar el payload directamente
       });
 
       if (!response.ok) {
+        const errorDetails = await response.json();
+        console.error('Error details:', errorDetails); // Log para depuración
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      navigate('/companies');
+      navigate('/companies'); // Redirigir a la lista de compañías
     } catch (err) {
       console.error('Error saving company:', err.message);
       setError(err.message);

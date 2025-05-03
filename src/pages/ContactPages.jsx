@@ -61,8 +61,6 @@ function ContactPages() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Contacts</h2>
-
-      {/* Buscador y botón para agregar contacto */}
       <div className="flex items-center gap-4 mb-4">
         <input
           type="text"
@@ -86,9 +84,16 @@ function ContactPages() {
             <div>
               <h3 className="text-lg font-semibold">{contact.name}</h3>
               <p>WhatsApp: {contact.whatsapp}</p>
-              {contact.company && <p>Company: {contact.company.name}</p>}
+              
             </div>
             <div className="flex space-x-2">
+              {/* Botón Ver Detalles */}
+              <Link
+                to={`/contacts/details/${contact.id}`}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-800"
+              >
+                View Details
+              </Link>
               {/* Botón Editar */}
               <Link
                 to={`/contacts/form?id=${contact.id}`}
@@ -98,7 +103,11 @@ function ContactPages() {
               </Link>
               {/* Botón Eliminar */}
               <button
-                onClick={() => handleDeleteContact(contact.id)}
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to delete this contact?')) {
+                    handleDeleteContact(contact.id);
+                  }
+                }}
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-800"
               >
                 Delete

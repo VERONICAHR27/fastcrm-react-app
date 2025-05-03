@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import ContactForm from '../components/ContactForm';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace('/templates', '/contacts');
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/contacts`;
 
 function ContactFormPages() {
   const [contact, setContact] = useState(null);
@@ -23,7 +23,7 @@ function ContactFormPages() {
           return response.json();
         })
         .then((data) => {
-          setContact(data);
+          setContact(data); // Asegurarse de que `data` incluya la información de la empresa asociada
           setLoading(false);
         })
         .catch((err) => {
@@ -48,7 +48,7 @@ function ContactFormPages() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedContact),
+        body: JSON.stringify(updatedContact), // Asegurarse de incluir companyId
       });
 
       if (!response.ok) {
