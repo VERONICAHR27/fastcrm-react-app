@@ -10,6 +10,7 @@ function ContactPages() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
   useEffect(() => {
     fetchContacts();
   }, []);
@@ -22,7 +23,7 @@ function ContactPages() {
       }
       const data = await response.json();
       setContacts(data);
-      setFilteredContacts(data); // Inicialmente, mostrar todos los contactos
+      setFilteredContacts(data);
     } catch (err) {
       console.error('Error fetching contacts:', err.message);
       setError(err.message);
@@ -42,6 +43,9 @@ function ContactPages() {
   };
 
   const handleDeleteContact = async (id) => {
+    const confirmDelete = window.confirm('¿Está seguro que desea eliminar este contacto?');
+    if (!confirmDelete) return;
+    
     try {
       const response = await fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' });
       if (!response.ok) {
@@ -54,7 +58,7 @@ function ContactPages() {
       setError(`Failed to delete contact: ${err.message}`);
     }
   };
-
+  
   if (loading) return <p>Loading contacts...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -94,6 +98,15 @@ function ContactPages() {
               >
                 View Details
               </Link>
+
+              {/* Botón para enviar*/}
+              <Link
+                to={`/contacts/${contact.id}/send-message`}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-800"
+              >
+                Send
+              </Link>
+              
               {/* Botón Editar */}
               <Link
                 to={`/contacts/form?id=${contact.id}`}
@@ -118,6 +131,12 @@ function ContactPages() {
       </ul>
     </div>
   );
+    
 }
+
+
+
+
+
 
 export default ContactPages;

@@ -8,25 +8,30 @@ import ContactPages from './pages/ContactPages';
 import ContactFormPages from './pages/ContactFormPages';
 import CompaniesPages from './pages/CompaniesPages';
 import CompaniesFormPages from './pages/CompaniesFormPages';
-import DetailView from './components/DetailView'; // Import the DetailView component
+import DetailView from './components/DetailView';
+import ContactLogHistoryPage from './pages/ContactLogHistoryPage';
+import ContactDetailPage from './pages/ContactDetailPage';
+import SendMessagePage from './pages/SendMessagePage';
 
 function App() {
   return (
     <Router>
-      <div className="App min-h-screen flex flex-col bg-gray-100">
+      <div>
         <Header />
         <Navbar />
-        <main className="flex-grow p-4">
+        <main>
           <Routes>
             <Route path="/contacts" element={<ContactPages />} />
             <Route path="/contacts/form" element={<ContactFormPages />} />
-            <Route path="/contacts/details/:id" element={<DetailView />} /> {/* Add route for contact details */}
-            <Route path="/companies/details/:id" element={<DetailView />} /> {/* Ruta para detalles de empresas */}
-            <Route path="/history" element={<h1>Historial</h1>} />
+            <Route path="/contacts/details/:id" element={<DetailView />} />
+            <Route path="/contacts/:id" element={<ContactDetailPage />} />
+            <Route path="/contacts/:id/send-message" element={<SendMessagePage />} />
+            <Route path="/companies/details/:id" element={<DetailView />} />
             <Route path="/templates" element={<TemplatesPages />} />
             <Route path="/templates/form" element={<TemplateFormPages />} />
             <Route path="/companies" element={<CompaniesPages />} />
-            <Route path="/companies/form" element={<CompaniesFormPages />} /> {/* Ruta para agregar/editar compañías */}
+            <Route path="/companies/form" element={<CompaniesFormPages />} />
+            <Route path="/history" element={<ContactLogHistoryPage />} />
           </Routes>
         </main>
       </div>
